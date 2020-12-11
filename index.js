@@ -9,6 +9,12 @@ let vm = new Vue({
     tmp: [],
     squareMapping: ['hautGauche', 'hautDroite', 'basGauche', 'basDroite']
   },
+  computed: {
+    score() {
+      const value = this.sequence.length - 1;
+      return (value < 0) ? `Score: 0` : `Score: ${ value }`;
+    }
+  },
   methods: {
     addNewElemToSequence(){
       this.sequence.push(this.squareMapping[Math.floor(Math.random() * 4)]);
