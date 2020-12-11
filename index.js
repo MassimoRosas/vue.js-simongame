@@ -12,23 +12,8 @@ let vm = new Vue({
     addNewElemToSequence(){
       this.sequence.push(this.squareMapping[Math.floor(Math.random() * 4)])
     },
-    allGray(){
-      this.hautGauche = false,
-      this.hautDroite = false,
-      this.basGauche = false,
-      this.basDroite = false
-    },
     newGame(){
-      this.sequence = [];
       this.addNewElemToSequence();
-      this[this.sequence[0]] = true;
-
-      setTimeout(function(){
-        vm.allGray();
-      }, 300)
-    },
-    selectSquare(instruction){
-      console.log(instruction);
     }
   }
 })
