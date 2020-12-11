@@ -1,67 +1,67 @@
 let vm = new Vue({
   el: '#app',
   data: {
+    sequence: [],
+    tmp: [],
     hautGauche: false,
     hautDroite: false,
     basGauche: false,
     basDroite: false,
-    sequence: [],
-    tmp: [],
-    squareMapping: ['hautGauche', 'hautDroite', 'basGauche', 'basDroite']
+    squareMapping: ["hautGauche", "hautDroite", "basGauche", "basDroite"]
   },
   computed: {
     score() {
-      const value = this.sequence.length - 1;
-      return (value < 0) ? `Score: 0` : `Score: ${ value }`;
+      return (this.sequence.length) ? `Score : ${this.sequence.length - 1}` : `Score : 0`;
     }
   },
   methods: {
-    addNewElemToSequence(){
-      this.sequence.push(this.squareMapping[Math.floor(Math.random() * 4)]);
-      this.tmp = this.sequence.slice();
-    },
-    allGray(){
-      this.hautGauche = false,
-      this.hautDroite = false,
-      this.basGauche = false,
-      this.basDroite = false
-    },
-    newGame(){
+    newGame() {
+      this.allGray();
       this.sequence = [];
       this.nextTurn();
     },
-    nextTurn(){
+    nextTurn() {
       this.addNewElemToSequence();
       this.allGray();
       this.playSequence(this.tmp[0]);
     },
-    playSequence(instruction){
-      this[instruction] = true;
-      setTimeout(function(){
-        vm.allGray();
-        vm.tmp.shift();
-        if (vm.tmp[0]) {
-          setTimeout(function() {
-            vm.playSequence(vm.tmp[0]);
-          }, 400)
-        } else {
-          vm.tmp = vm.sequence.slice();
-        }
-      }, 400);
+    allGray() {
+      this.hautGauche = false;
+      this.hautDroite = false,
+        this.basGauche = false,
+        this.basDroite = false
     },
-    selectSquare(instruction){
-      if (instruction === this.tmp[0]) {
-        this[instruction] = true;
-        setTimeout(function(){
-          vm.allGray();
-          vm.tmp.shift();
-          if (!vm.tmp[0]){
-            vm.nextTurn();
+    selectSquare(carre) {
+      if (carre === this.tmp[0]) {
+        vm[carre] = true;
+        setTimeout(() => {
+          this.allGray();
+          this.tmp.shift();
+          if (!this.tmp[0]) {
+            this.nextTurn();
           }
         }, 400)
       } else {
-        alert('Perdu !');
+        alert('Perdu!');
       }
+    },
+    addNewElemToSequence() {
+      this.sequence.push(this.squareMapping[Math.floor(Math.random() * 4)]);
+      this.tmp = this.sequence.slice();
+    },
+    playSequence(carre) {
+      setTimeout(() => {
+        this[carre] = true;
+        setTimeout(() => {
+          this.allGray();
+          this.tmp.shift();
+          if (this.tmp[0]) {
+            this.playSequence(this.tmp[0]);
+          } else {
+            this.tmp = this.sequence.slice();
+          }
+        }, 400);
+      }, 400);
     }
   }
-})
+});
